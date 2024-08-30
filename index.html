@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Camera with Color Inversion (Back Camera)</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        video {
+            width: 80%;
+            height: auto;
+            border: 5px solid #fff;
+            margin-top: 10px;
+        }
+        .instagram-handle {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="instagram-handle">@heygovil</div>
+    <video id="camera" autoplay playsinline></video>
+
+    <script>
+        async function startCamera() {
+            try {
+                const constraints = {
+                    video: {
+                        facingMode: { ideal: "environment" },
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                };
+
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                const videoElement = document.getElementById('camera');
+                videoElement.srcObject = stream;
+
+                // Apply the inversion filter directly to the video element
+                videoElement.style.filter = 'invert(100%)';
+            } catch (err) {
+                console.error("Error accessing the camera: " + err);
+                alert("Camera access is required to view this content.");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', startCamera);
+    </script>
+</body>
+</html>
